@@ -1,7 +1,12 @@
 from aiogram.fsm.state import StatesGroup, State
 
-class Form(StatesGroup):
+class User(StatesGroup):
     name = State()
-    phone_number = State()
-    role = State()
+    user_name = State()
     photo = State()
+
+
+class Art(StatesGroup):
+    image: State()
+    tag: State()
+    creator: State()
