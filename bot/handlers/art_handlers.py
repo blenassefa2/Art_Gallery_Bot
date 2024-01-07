@@ -1,11 +1,8 @@
-from aiogram.filters import Command
-from aiogram import Router, types, F 
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram import Router, F 
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, ContentType
-from aiogram.filters import Command
-from aiogram_widgets.pagination import KeyboardPaginator
+from aiogram.types import Message
 
+from utils.pagination.image_paginator import ImagePaginator
 from ..keyboards import keyboard
 from utils.state import Art
 
@@ -38,6 +35,7 @@ async def Art_photo(message: Message, state:FSMContext):
 @art_router.message(Art.image, F.photo)
 async def final_state(message: Message, state:FSMContext):
     try:
+        
         photo_id = message.photo[-1].file_id
         data = await state.get_data()
         await state.clear()
@@ -48,16 +46,23 @@ async def final_state(message: Message, state:FSMContext):
             for key, value in data.items()
         ]
         
+        text_data = [[message.photo[-1].file_id, [Artatted_text[0] +str(i), Artatted_text[1] + str(i)]] for i in range(1, 10)]
+
+        paginator = ImagePaginator(
+            data=text_data,
+            router=art_router,
+            pagination_buttons=["⏪", "⬅️", "➡️", "⏩"],
+            per_page=1
+        )
+
+        current_message, reply_markup = paginator.current_message_data
+        current_text_chunk, current_caption = current_message
         await message.answer_photo(
-            photo_id, "\n".join(Artatted_text), reply_markup=KeyboardPaginator(
-                data=keyboard.add_or_view_art_buttons,
-                router=art_router,
-                per_page=20,
-                per_row=1,
-                
-                ).as_markup()
+            current_text_chunk,
+            caption=current_caption,
+            reply_markup=reply_markup,
         )
     
-    except:
-        await message.answer("Some error occurred")
+    except Exception as e:
+        await message.answer(f"Some error occurred {e}")
 

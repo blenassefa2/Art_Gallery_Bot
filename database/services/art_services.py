@@ -24,9 +24,9 @@ async def get_art_by_tag(tag: str) -> Art or None:
 
 async def create_art(**kwargs) -> Art:
     art = await arts_collection.insert_one({**kwargs})
-    return await get_art_by_id(art._id)
+    return await get_art_by_username(art.user_name)
 
 
-async def update_art_by_id(id: int, **kwargs) -> Art:
+async def update_art_by_id(id: str, **kwargs) -> Art:
     art = await arts_collection.find_one_and_update({'_id': id}, {'$set': kwargs}, return_document=True)
     return Art(**art)
