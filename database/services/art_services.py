@@ -7,12 +7,14 @@ async def get_arts() -> list[Art]:
     return [Art(**a) async for a in arts]
 
 
-async def get_art_by_id(id: int) -> Art or None:
-    art = await arts_collection.find_one({'_id': id})
+async def get_art_by_username(username: str) -> Art or None:
+    art = await arts_collection.find_one({'user_name': username})
     return Art(**art) if art else None
 
 async def get_art_by_user(user: str) -> Art or None:
-    arts = await arts_collection.find_one({'creater.name': user})
+    usernames =  await users_collection.find({'name': user})
+
+    arts =[await arts_collection.find({'user_name': username}) for username in usernames]
     return [Art(**a) async for a in arts]
 
 async def get_art_by_tag(tag: str) -> Art or None:

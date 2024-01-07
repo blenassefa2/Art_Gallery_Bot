@@ -8,7 +8,7 @@ class Art(BaseModel):
     _id: int
     image: str
     tag: str
-    creator: User
+    creator: str
    
 
 

@@ -7,6 +7,8 @@ class User(StatesGroup):
 
 
 class Art(StatesGroup):
-    image: State()
-    tag: State()
-    creator: State()
+    creator = State()
+    tag = State()
+    image = State()
+    
+    

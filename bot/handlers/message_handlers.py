@@ -13,8 +13,3 @@ async def start_handler(message: types.Message):
     except:
         await message.answer("Some error occurred")
 
-
-
-@message_router.message(F.text == "🎨 View Gallery")
-async def process_callback_respond_to_action1(message: types.message):
-    await message.answer(f"you picked View Gallery")
