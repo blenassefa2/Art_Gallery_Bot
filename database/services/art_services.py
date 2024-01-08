@@ -15,14 +15,28 @@ async def get_art_by_id(id: str) -> Art or None:
     art = await arts_collection.find_one({'_id': id})
     return Art(**art) if art else None
 
-async def get_art_by_user(user: str) -> list[Art] or None:
-    usernames =  await users_collection.find({'name': user})
+async def get_art_by_artist(user: str) -> list[Art] or None:
+    # Find all users with the given name
+    users_with_curr_name = await users_collection.find({'name': user}).to_list(length=None)
 
-    arts =[await arts_collection.find({'creator': username}) for username in usernames]
-    return [Art(**a) async for a in arts]
+    if users_with_curr_name:
+        # Get all user_names from the list of users
+        user_names = [u['user_name'] for u in users_with_curr_name]
+
+        # Find arts based on the list of user_names
+        arts_cursor = arts_collection.find({'creator': {'$in': user_names}})
+
+        # Convert the cursor to a list of dictionaries
+       
+
+        # Return the list of arts
+        return [Art(**a) async for a in arts_cursor]
+
+    # Return None if no users are found with the given name
+    return None
 
 async def get_art_by_tag(tag: str) -> list[Art] or None:
-    arts = await arts_collection.find_one({'tag': tag})
+    arts = arts_collection.find({'tag': tag})
     return [Art(**a) async for a in arts]
 
 

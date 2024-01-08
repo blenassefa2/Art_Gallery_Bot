@@ -31,8 +31,7 @@ async def start_user_register(message: Message, state:FSMContext):
                 
             
             await message.answer_photo(
-                registered_user.photo, "\n".join(Useratted_text), reply_markup=keyboard.add_or_view_art_buttons,
-                    
+                registered_user.photo, "\n".join(Useratted_text), reply_markup=keyboard.add_or_view_art_buttons
             )
         else:
             await state.update_data(user_name = current_user_name)
@@ -70,8 +69,7 @@ async def final_state(message: Message, state:FSMContext):
             
         
         await message.answer_photo(
-            photo_id, "\n".join(Useratted_text), reply_markup=keyboard.add_or_view_art_buttons,
-                
+            photo_id, "\n".join(Useratted_text), reply_markup=keyboard.add_or_view_art_buttons
         )
     
     except Exception as e:

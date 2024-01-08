@@ -46,6 +46,9 @@ create_art_keyboard = ReplyKeyboardMarkup(
     keyboard=[
         [
             KeyboardButton(text="🖌 Let's gooo!!")
+        ],
+        [
+            KeyboardButton(text="🎨 View Gallery")
         ]
     ],
     resize_keyboard=True,

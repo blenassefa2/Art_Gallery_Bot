@@ -11,4 +11,8 @@ class Art(StatesGroup):
     tag = State()
     image = State()
     
+
+class Filter(StatesGroup):
+    artist = State()
+    tag = State()
     
