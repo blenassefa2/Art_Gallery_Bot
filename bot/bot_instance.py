@@ -1,8 +1,9 @@
-import os
+
 from aiogram import Bot, types
 
 
 # Use the commented code below if you store the token api in .env
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
