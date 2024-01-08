@@ -1,10 +1,10 @@
 import os
 from aiogram import Bot, types
 
-from config import TOKEN_API
+
 # Use the commented code below if you store the token api in .env
-# from dotenv import load_dotenv
-# load_dotenv()
+from dotenv import load_dotenv
+load_dotenv()
 
 # For hosting on pythonanywhere use the following commented code
 # from aiogram.client.session.aiohttp import AiohttpSession
@@ -15,6 +15,6 @@ from config import TOKEN_API
 # )
 
 bot = Bot(
-    token=TOKEN_API,
+    token=os.environ['TOKEN_API'],
     parse_mode='HTML'
 )
