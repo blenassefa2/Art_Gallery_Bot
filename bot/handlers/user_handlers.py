@@ -6,6 +6,8 @@ from aiogram.types import Message, ContentType
 from aiogram.filters import Command
 from aiogram_widgets.pagination import KeyboardPaginator
 
+from database.services.user_services import create_user
+
 from ..keyboards import keyboard
 from utils.state import User
 
@@ -35,24 +37,23 @@ async def User_photo(message: Message, state:FSMContext):
 async def final_state(message: Message, state:FSMContext):
     try:
         photo_id = message.photo[-1].file_id
+        await state.update_data(photo = photo_id)
         data = await state.get_data()
         await state.clear()
-
+       
+        await create_user(**data)
+        
+        
         Useratted_text = []
-        [
-            Useratted_text.append(f"{key}: {value}")
-            for key, value in data.items()
-        ]
-
+        for key, value in data.items():
+            if key != 'photo':
+                Useratted_text.append(f"{key}: {value}")
+            
+        
         await message.answer_photo(
-            photo_id, "\n".join(Useratted_text), reply_markup=KeyboardPaginator(
-                data=keyboard.add_or_view_art_buttons,
-                router=user_router,
-                per_page=20,
-                per_row=1,
+            photo_id, "\n".join(Useratted_text), reply_markup=keyboard.add_or_view_art_buttons,
                 
-                ).as_markup()
         )
     
-    except:
-        await message.answer("Some error occurred")
+    except Exception as e:
+        await message.answer(f"Some error occurred {e}")

@@ -36,7 +36,7 @@ async def Art_photo(message: Message, state:FSMContext):
 async def final_state(message: Message, state:FSMContext):
     try:
         
-        photo_id = message.photo[-1].file_id
+        
         data = await state.get_data()
         await state.clear()
 

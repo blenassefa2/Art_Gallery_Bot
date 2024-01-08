@@ -7,4 +7,4 @@ from config import MONGO_URL
 
 
 cluster = motor.motor_asyncio.AsyncIOMotorClient(MONGO_URL)
-collection = cluster.Blen.myCollection
+collection = cluster.Art_Gallery.myCollection

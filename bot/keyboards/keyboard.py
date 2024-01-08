@@ -17,10 +17,16 @@ first_reply_keyboard = ReplyKeyboardMarkup(
     selective=True
 )
 
-add_or_view_art_buttons = [
-    InlineKeyboardButton(text="🖼 Add your art", callback_data="add_art"),
-    InlineKeyboardButton(text="🎨 View Gallery", callback_data="view_gallery"),
-]
+add_or_view_art_buttons= InlineKeyboardMarkup(
+    inline_keyboard = [
+        [
+            InlineKeyboardButton(text="🖼 Add your art", callback_data="add_art"),
+        ],
+        [
+            InlineKeyboardButton(text="🎨 View Gallery", callback_data="view_gallery")
+        ]
+    ]
+)
 
 art_filtering_keyboard = ReplyKeyboardMarkup(
     keyboard=[

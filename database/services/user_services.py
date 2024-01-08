@@ -11,8 +11,8 @@ async def get_user_by_id(id: str) -> User or None:
     return User(**user) if user else None
 
 
-async def create_user(id: str, **kwargs) -> User:
-    user = await users_collection.insert_one({'_id': id, **kwargs})
+async def create_user(**kwargs) -> User:
+    user = await users_collection.insert_one({**kwargs})
     return await get_user_by_id(user.inserted_id)
 
 
