@@ -4,6 +4,7 @@ import aiogram
 from aiogram import Router
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.types import  InputMediaPhoto
 
 if aiogram.__version__ >= "3.0.0b8":
     from pydantic.v1 import Field
@@ -72,11 +73,16 @@ class ImagePaginator(BasePaginator):
         )
         image, caption = image_with_caption
         if call.message.caption:
-            await call.message.edit_caption(
-                caption=caption,
-                reply_markup=reply_markup,
-                disable_web_page_preview=True,
+            
+            await call.message.edit_media(
+                media = InputMediaPhoto(
+                    media=image, 
+                    caption=caption, 
+                    caption_entities=None
+                ),
+                reply_markup=reply_markup
             )
+            
         else:
             await call.message.edit_text(
                 text=image, reply_markup=reply_markup, disable_web_page_preview=True

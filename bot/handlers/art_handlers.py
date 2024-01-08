@@ -6,6 +6,7 @@ from utils.pagination.image_paginator import ImagePaginator
 from ..keyboards import keyboard
 from utils.state import Art
 
+from database.services.art_services import create_art, get_art_by_username
 art_router = Router()
 
 @art_router.message(F.text == "🎨 View Gallery")
@@ -36,33 +37,38 @@ async def Art_photo(message: Message, state:FSMContext):
 async def final_state(message: Message, state:FSMContext):
     try:
         
+        await state.update_data(image = message.photo[-1].file_id)
         
         data = await state.get_data()
+        inserted_art = await create_art(**data)
         await state.clear()
 
-        Artatted_text = []
-        [
-            Artatted_text.append(f"{key}: {value}")
-            for key, value in data.items()
-        ]
+        if not inserted_art:
+            await message.answer("Couldn't insert art")
+        else:
+            text_data = []
+            
+            current_user_arts = await get_art_by_username(message.from_user.username)
+            
+            for art in current_user_arts:
+                text_data.append([art.image, [art.creator, art.tag]])
+
+            paginator = ImagePaginator(
+                data=text_data,
+                router=art_router,
+                pagination_buttons=["⏪", "⬅️", "➡️", "⏩"],
+                per_page=1
+            )
+
+            current_message, reply_markup = paginator.current_message_data
+            current_text_chunk, current_caption = current_message
+            await message.answer_photo(
+                current_text_chunk,
+                caption=current_caption,
+                reply_markup=reply_markup,
+            )
         
-        text_data = [[message.photo[-1].file_id, [Artatted_text[0] +str(i), Artatted_text[1] + str(i)]] for i in range(1, 10)]
-
-        paginator = ImagePaginator(
-            data=text_data,
-            router=art_router,
-            pagination_buttons=["⏪", "⬅️", "➡️", "⏩"],
-            per_page=1
-        )
-
-        current_message, reply_markup = paginator.current_message_data
-        current_text_chunk, current_caption = current_message
-        await message.answer_photo(
-            current_text_chunk,
-            caption=current_caption,
-            reply_markup=reply_markup,
-        )
-    
     except Exception as e:
+        
         await message.answer(f"Some error occurred {e}")
 
