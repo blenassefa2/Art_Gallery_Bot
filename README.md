@@ -2,15 +2,11 @@
 Art Gallery Bot is a Telegram bot designed to provide a platform for users to register, showcase their artwork, and find inspiration from others' creative works.
 
 ## Technologies Used:
-aiogram v3.2.0: A powerful and user-friendly Python library for building Telegram bots.
-
-aiogram-widgets: Enhance your bot's functionality with interactive widgets using aiogram-widgets.
-
-MongoDB: A NoSQL database for storing and managing user registrations and artwork information.
-
-Docker: Containerization to ensure consistent deployment across various environments.
-
-Railway: Simplify deployment and hosting with Railway, making it easier to manage and scale your bot.
+- **aiogram v3.2.0:** A powerful and user-friendly Python library for building Telegram bots.
+- **aiogram-widgets:** Enhance your bot's functionality with interactive widgets using aiogram-widgets.
+- **MongoDB:** A NoSQL database for storing and managing user registrations and artwork information.
+- **Docker:** Containerization to ensure consistent deployment across various environments.
+- **Railway:** Simplify deployment and hosting with Railway, making it easier to manage and scale your bot.
 
 ## Getting Started:
 Installation: Clone the repository and install the required dependencies.
